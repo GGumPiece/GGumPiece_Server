@@ -1,9 +1,11 @@
+import { IPost } from "./IPost";
+
 export interface IUser {
     id: string;
     name: string;
     password: string;
     postCount?: number;
-   // post?: [IPosts];
+    posts?: [IPost];
   }
   
   export interface IUserInputDTO {
@@ -11,6 +13,6 @@ export interface IUser {
     name: string;
     password: string;
     postCount?: number;
-   // post?: [IPosts];
+    posts?: [IPost];
   }
   

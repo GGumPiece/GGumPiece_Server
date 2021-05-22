@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 
 import Post from "../models/Post";
+import auth from "../middleware/auth";
+import User from "../models/User";
 
 const router = express.Router();
 
@@ -26,7 +28,7 @@ router.post(
     const { content, emoji } = req.body;
 
     try {
-      let user = await User.findById(req.body.user.id).select("-password");
+      let user = await User.findOne({ id: req.body.user.id });
       const newPost = new Post({
         content: content,
         emoji: emoji,
@@ -49,8 +51,8 @@ router.post(
  */
 router.get("/:id", auth, async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.body.user.id).select("-password");
-    const post = user.posts.find(post => post.id === req.params.id);
+    const user = await User.findOne({ id: req.body.user.id });
+    const post = user.posts.find(post => post._id === req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -59,9 +61,10 @@ router.get("/:id", auth, async (req: Request, res: Response) => {
     res.json(post);
   } catch (error) {
     console.error(error.message);
-    if (error.kind === "ObjectId") {
-      return res.status(404).json({ message: "Post not found" });
-    }
+    // if (error.kind === "ObjectId") {
+    //   return res.status(404).json({ message: "Post not found" });
+    // }
+    res.send("Server Error");
   }
 })
 
@@ -73,14 +76,14 @@ router.get("/:id", auth, async (req: Request, res: Response) => {
 router.delete("/:id", auth, async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.body.user.id).select("-password");
-    const post = user.posts.find(post => post.id === req.params.id);
+    const post = user.posts.find(post => post._id === req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
     const removeIndex = user.posts
-    .map((post) => post.id)
+    .map((post) => post._id)
     .indexOf(req.params.id);
 
     user.posts.splice(removeIndex, 1);
@@ -94,3 +97,5 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
     return res.status(500).send("Server Error");
   }
 })
+
+module.exports = router;

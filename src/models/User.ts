@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { IUser } from "../interfaces/IUser";
+import Post from "./Post";
 
 const UserSchema = new mongoose.Schema({
   id: {
@@ -18,13 +19,32 @@ const UserSchema = new mongoose.Schema({
   postCount: {
     type: Number,
   },
- /* post : [
-    
-    안에 뭘 넣어야 되죠?
-    
+  posts: [
+    {
+      content: {
+        type: String,
+        required: true,
+      },
+      emoji: {
+        type: String,
+        required: true,
+      },
+      dreamReadings: [
+        {
+          keyword: {
+            type: String,
+          },
+          reading: {
+            type: String,
+          },
+        },
+      ],
+      date: {
+        type: Date,
+        defaul: Date.now,
+      },
+    },
   ],
-  */
-
 });
 
 export default mongoose.model<IUser & mongoose.Document>("User", UserSchema);

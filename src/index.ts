@@ -8,6 +8,8 @@ connectDB();
 app.use(express.json());
 
 app.use("/api/posts", require('./api/post'));
+app.use("/api/users", require("./api/users"));
+app.use("/api/auth", require("./api/auth"));
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -19,11 +21,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-app.use("/api/users", require("./api/users"));
-//app.use("/api/profile", require("./api/profile"));
-app.use("/api/auth", require("./api/auth"));
-//app.use("/api/posts", require("./api/posts"));
 
 app
   .listen(5000, () => {
