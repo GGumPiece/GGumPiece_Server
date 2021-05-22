@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
+import { userInfo } from "os";
 
 import Post from "../models/Post";
 
@@ -26,13 +27,15 @@ router.post(
     const { content, emoji } = req.body;
 
     try {
+      let user = await User.findById(req.body.user.id).select("-password");
       const newPost = new Post({
         content: content,
         emoji: emoji,
       });
-      const post = await newPost.save();
 
-      res.json(post);
+      user.posts.unshift(newPost);
+      await user.save();
+      res.json(user.posts);
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");
