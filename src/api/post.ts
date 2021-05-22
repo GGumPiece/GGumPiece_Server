@@ -48,9 +48,10 @@ router.post(
  * @desc Get post by ID
  * @access Private
  */
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", auth, async (req: Request, res: Response) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const user = await User.findById(req.body.user.id).select("-password");
+    const post = await user.posts.findById(req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
