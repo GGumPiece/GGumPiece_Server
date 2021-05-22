@@ -52,7 +52,7 @@ router.post(
 router.get("/:id", auth, async (req: Request, res: Response) => {
   try {
     const user = await User.findOne({ id: req.body.user.id });
-    const post = user.posts.find(post => post._id === req.params.id);
+    const post = user.posts.find(post => post.id === req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -75,15 +75,15 @@ router.get("/:id", auth, async (req: Request, res: Response) => {
  */
 router.delete("/:id", auth, async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.body.user.id).select("-password");
-    const post = user.posts.find(post => post._id === req.params.id);
+    const user = await User.findOne({ id: req.body.user.id });
+    const post = user.posts.find(post => post.id === req.params.id);
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
     const removeIndex = user.posts
-    .map((post) => post._id)
+    .map((post) => post.id)
     .indexOf(req.params.id);
 
     user.posts.splice(removeIndex, 1);
