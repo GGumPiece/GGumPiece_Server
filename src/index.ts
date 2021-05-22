@@ -7,6 +7,8 @@ connectDB();
 
 app.use(express.json());
 
+app.use("/api/posts", require('./api/post'));
+
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
