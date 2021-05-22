@@ -89,6 +89,7 @@ router.delete("/:id", auth, async (req: Request, res: Response) => {
     .indexOf(req.params.id);
 
     user.posts.splice(removeIndex, 1);
+    user.postCount = user.posts.length;
     await user.save()
     res.json(user.posts);
   } catch (error) {
