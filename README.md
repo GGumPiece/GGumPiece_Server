@@ -152,4 +152,4 @@ export interface IDreamReading {
 
 ## API 명세서
 
-[API 명세서](https://www.notion.so/server-6d6fe61043024b3593c428a416f35c55)
+[API 명세서](https://github.com/GGumPiece/GGumPiece_Server/wiki)
