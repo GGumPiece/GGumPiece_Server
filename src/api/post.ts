@@ -35,7 +35,9 @@ router.post(
       });
 
       user.posts.unshift(newPost);
+      user.postCount = user.posts.length;
       await user.save();
+      console.log(user);
       res.json(user.posts);
     } catch (error) {
       console.error(error.message);
