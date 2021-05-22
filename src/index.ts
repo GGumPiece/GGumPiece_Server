@@ -11,7 +11,7 @@ app.use("/api/posts", require('./api/post'));
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
+  // set locals, only providing error in desvelopment
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "production" ? err : {};
 
@@ -19,6 +19,11 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+app.use("/api/users", require("./api/users"));
+//app.use("/api/profile", require("./api/profile"));
+app.use("/api/auth", require("./api/auth"));
+//app.use("/api/posts", require("./api/posts"));
 
 app
   .listen(5000, () => {
