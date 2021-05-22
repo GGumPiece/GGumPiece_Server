@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import config from "../config";
+import User from "../models/User";
+import Post from "../models/Post";
 
 const connectDB = async () => {
   try {
@@ -10,12 +12,12 @@ const connectDB = async () => {
     });
 
     console.log("Mongoose Connected ...");
-    // User.createCollection().then(function(collection) {
-    //   console.log('User Collection is created!');
-    // });
-    // Post.createCollection().then(function(collection) {
-    //   console.log('Post Collection is created!');
-    // });
+    User.createCollection().then(function(collection) {
+      console.log('User Collection is created!');
+    });
+    Post.createCollection().then(function(collection) {
+      console.log('Post Collection is created!');
+    });
     // Profile.createCollection().then(function(collection) {
     //   console.log('Profile Collection is created!');
     // });
